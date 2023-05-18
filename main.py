@@ -1,4 +1,5 @@
 import requests
+import os
 import pandas as pd
 import praw
 from pmaw import PushshiftAPI
@@ -69,31 +70,37 @@ print(res.json()['data']['children'][1]['data'].keys())  # let's see what we get
 for post in res.json()['data']['children']:
     print(post['data']['title'])'''
 
-reddit = praw.Reddit(
+
+
+
+
+'''reddit = praw.Reddit(
     client_id='tEa4Ddj6AGrkDgCW2VEukw',
     client_secret='2KTHCrQWnbgz28NScHFFSBSg4oIgPw',
     password='reddit00',
     user_agent='veror'
 )
 
-'''api_praw = PushshiftAPI(praw=reddit)
-comments = api_praw.search_comments(q="quantum", subreddit="science", limit=100, until=1629990795)
-comments_df = pd.DataFrame(comments)
-comments_df.to_csv('proca_comm.csv')'''
-
 
 # search submission
-subreddit='science'
-start_time = int(dt.datetime(2023, 5, 1).timestamp())
-end_time = int(dt.datetime(2023, 5, 15).timestamp())
-limit = 1000000
+subreddit='ADHD'
+start_time = int(dt.datetime(2023, 3, 1).timestamp())
+end_time = int(dt.datetime(2023, 3, 2).timestamp())
+limit = 1000
 api = PushshiftAPI()
 posts = list(api.search_submissions(subreddit=subreddit, after=start_time, before=end_time, limit=limit))
 print(type(posts))
 print(posts)
-print(pd.DataFrame(posts).to_csv('ADHD_may_1_15.csv'))
+print(pd.DataFrame(posts).to_csv('ADHD_march_1_2.csv'))'''
 
 
+
+
+
+'''api_praw = PushshiftAPI(praw=reddit)
+comments = api_praw.search_comments(q="quantum", subreddit="science", limit=100, until=1629990795)
+comments_df = pd.DataFrame(comments)
+comments_df.to_csv('proca_comm.csv')'''
 
 '''subreddit = reddit.subreddit('ADHD')
 num = 0
@@ -155,3 +162,21 @@ post_list = [post for post in comments]
 comments_df.to_csv('prova.csv', index=False)'''
 
 #print(post_list)
+
+
+
+
+
+
+# merge datasets
+
+dir = 'ADHD_datasets/'
+files = os.listdir(dir)
+
+dataset = pd.DataFrame()
+
+for file in files:
+    df = pd.read_csv(dir+file)
+    dataset = pd.concat([dataset, df])
+
+dataset.to_csv('ADHD_dataset.csv')
